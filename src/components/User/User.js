@@ -73,7 +73,6 @@ const Div = styled.div`
   bottom: 4vw;
   left: 15vw;
 `;
-
 const AllTechnology = styled.p``;
 
 const User = () => {
@@ -94,6 +93,8 @@ const User = () => {
 
   if (status === "loading") {
     return <p>Cargando</p>;
+  }else{
+    console.log(data)
   }
 
   return (
