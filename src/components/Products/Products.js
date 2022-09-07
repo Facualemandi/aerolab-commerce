@@ -252,26 +252,31 @@ const Products = () => {
     setTheProduct(obj);
   };
 
-  const closedModal = () => {
+  const closedModal = (el) => {
     setOpenProduct(false);
   };
 
   const buyItem = async (el) => {
-      
-    const options = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.REACT_APP_KEY}`,
-      },
-      body: {
-        productId: el._id,
-      },
-    };
-
-    const API_ITEMS = "https://coding-challenge-api.aerolab.co/redeem";
-    const respones = await Promise.all([helpHttp().post(API_ITEMS, options)]);
-    refetch();
-    closedModal()
+    const findItemUser = user.redeemHistory.find(
+      (item) => item.productId === el._id
+    );
+    if (user.redeemHistory.includes(findItemUser)) {
+      return console.log("existe");
+    } else {
+      const options = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.REACT_APP_KEY}`,
+        },
+        body: {
+          productId: el._id,
+        },
+      };
+      const API_ITEMS = "https://coding-challenge-api.aerolab.co/redeem";
+      const respones = await Promise.all([helpHttp().post(API_ITEMS, options)]);
+      refetch();
+      closedModal();
+    }
   };
 
   return (
@@ -318,7 +323,9 @@ const Products = () => {
               <ImgModal alt="" src={theProduct.img.hdUrl} />
 
               <section>
-                <button onClick={closedModal}>Cancelar</button>
+                <button onClick={() => closedModal(theProduct)}>
+                  Cancelar
+                </button>
                 <button onClick={() => buyItem(theProduct)}>Aceptar</button>
               </section>
             </CenterProduct>
