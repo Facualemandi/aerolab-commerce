@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import React from "react";
 import styled from "styled-components";
 import { helpHttp } from "../../Helper/helpHttp";
@@ -53,6 +53,7 @@ const DivPoints = styled.div`
   justify-content: center;
   align-items: center;
   margin-right: 15px;
+  border: 1px solid red;
 `;
 const ImgAeroLab = styled.img`
   width: 100%;
@@ -77,8 +78,7 @@ const Div = styled.div`
 `;
 
 const User = () => {
-
-  const { data } = useTheContext();
+  const { data, refetch } = useTheContext();
 
   const options = {
     headers: {
@@ -89,15 +89,13 @@ const User = () => {
       amount: 1000,
     },
   };
-  let user = data
-  console.log(user)
 
   const getPoints = async () => {
     const API_POINTS = "https://coding-challenge-api.aerolab.co/user/points";
     const theResponse = await Promise.all([helpHttp().post(API_POINTS, options),]);
-    return  theResponse
-  };
+    refetch()
 
+  };
 
   return (
     <>
@@ -108,7 +106,7 @@ const User = () => {
           <SectionUser>
             <Name>{data.name}</Name>
             <DivPoints>
-              <Points>{user.points}</Points>
+              <Points>{data.points}</Points>
               <CoinImg alt="" src={Coin} onClick={getPoints} />
             </DivPoints>
           </SectionUser>
