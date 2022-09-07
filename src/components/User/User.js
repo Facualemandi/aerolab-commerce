@@ -77,6 +77,7 @@ const Div = styled.div`
 `;
 
 const User = () => {
+
   const { data } = useTheContext();
 
   const options = {
@@ -88,15 +89,15 @@ const User = () => {
       amount: 1000,
     },
   };
+  let user = data
+  console.log(user)
 
   const getPoints = async () => {
     const API_POINTS = "https://coding-challenge-api.aerolab.co/user/points";
-    const theResponse = await Promise.all([
-      helpHttp().post(API_POINTS, options),
-    ]);
-
-    return theResponse;
+    const theResponse = await Promise.all([helpHttp().post(API_POINTS, options),]);
+    return  theResponse
   };
+
 
   return (
     <>
@@ -107,7 +108,7 @@ const User = () => {
           <SectionUser>
             <Name>{data.name}</Name>
             <DivPoints>
-              <Points>{data.points}</Points>
+              <Points>{user.points}</Points>
               <CoinImg alt="" src={Coin} onClick={getPoints} />
             </DivPoints>
           </SectionUser>
