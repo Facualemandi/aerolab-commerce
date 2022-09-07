@@ -1,4 +1,3 @@
-import { useMutation } from "@tanstack/react-query";
 import React from "react";
 import styled from "styled-components";
 import { helpHttp } from "../../Helper/helpHttp";
@@ -6,6 +5,8 @@ import Logo from "../../images/logo.svg";
 import Coin from "../../images/coin.svg";
 import Aerolab from "../../images/aerolab-image.png";
 import { useTheContext } from "../../context/context";
+import Loader from "../Loader/Loader";
+import { RiShoppingCartFill } from "react-icons/ri";
 
 const Main = styled.main`
   display: flex;
@@ -17,11 +18,15 @@ const Container = styled.section`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: fixed;
-  z-index: 1000;
-  background-color: white;
-  padding: 10px;
-  box-shadow: 0 0 10px 0 rgba(45, 45, 45, 0.37);
+
+  @media (max-width: 780px) {
+    position: fixed;
+    z-index: 2700;
+    background-color: white;
+    padding: 10px;
+    box-shadow: 0 0 10px 0 rgba(45, 45, 45, 0.37);
+    bottom: 0px;
+  }
 `;
 const SectionUser = styled.section`
   display: flex;
@@ -52,13 +57,11 @@ const DivPoints = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: 15px;
-  border: 1px solid red;
+  margin-right: 30px;
 `;
 const ImgAeroLab = styled.img`
   width: 100%;
   margin: auto;
-  margin-top: 65px;
 `;
 const SectionElectronic = styled.section`
   position: relative;
@@ -70,15 +73,20 @@ const Electronics = styled.p`
   font-weight: bold;
   color: white;
 `;
-
 const Div = styled.div`
   position: absolute;
   bottom: 4vw;
   left: 15vw;
 `;
+const IconCart = styled(RiShoppingCartFill)`
+  width: 35px;
+  height: 35px;
+  margin-right: 15px;
+  color: rgba(48, 216, 250, 0.85);
+`;
 
 const User = () => {
-  const { data, refetch } = useTheContext();
+  const { data, refetch, isFetching } = useTheContext();
 
   const options = {
     headers: {
@@ -92,9 +100,11 @@ const User = () => {
 
   const getPoints = async () => {
     const API_POINTS = "https://coding-challenge-api.aerolab.co/user/points";
-    const theResponse = await Promise.all([helpHttp().post(API_POINTS, options),]);
-    refetch()
-
+    const theResponse = await Promise.all([
+      helpHttp().post(API_POINTS, options),
+    ]);
+    refetch();
+    return theResponse;
   };
 
   return (
@@ -106,10 +116,17 @@ const User = () => {
           <SectionUser>
             <Name>{data.name}</Name>
             <DivPoints>
-              <Points>{data.points}</Points>
-              <CoinImg alt="" src={Coin} onClick={getPoints} />
+              {isFetching ? (
+                <Loader />
+              ) : (
+                <>
+                  <Points>{data.points}</Points>
+                  <CoinImg alt="" src={Coin} onClick={getPoints} />
+                </>
+              )}
             </DivPoints>
           </SectionUser>
+          <IconCart />
         </Container>
 
         <SectionElectronic>

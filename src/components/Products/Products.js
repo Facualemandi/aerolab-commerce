@@ -63,6 +63,7 @@ const Container = styled.section`
 const SectionProduct = styled.section`
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.13);
   position: relative;
+  filter: ${({ value }) => (!value ? "blur(0px)" : "blur(6px)")};
 
   @media (max-width: 480px) {
     margin: 20px;
@@ -102,7 +103,6 @@ const Category = styled.p`
   padding-left: 5px;
   padding: 5px;
 `;
-
 const ImgBuy = styled.img`
   display: flex;
   position: absolute;
@@ -112,7 +112,6 @@ const ImgBuy = styled.img`
   height: 55px;
   z-index: 1500;
 `;
-
 const DivBuy = styled.div`
   display: flex;
   flex-direction: column;
@@ -128,13 +127,11 @@ const Price = styled.p`
   font-size: 25px;
   margin-bottom: 5px;
 `;
-
 const ImgCoin = styled.img`
   width: 40px;
   height: 40px;
   margin-left: 5px;
 `;
-
 const PBuy = styled.p`
   display: flex;
   justify-content: center;
@@ -154,11 +151,79 @@ const PNoBuy = styled.p`
   font-family: "Roboto", sans-serif;
   font-weight: lighter;
 `;
+const WatchProdcut = styled.section`
+  position: fixed;
+  width: 100vw;
+  height: auto;
+  min-height: 100vh;
+  top: 0px;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 2000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  div {
+    width: 90vw;
+    height: 350px;
+    border-radius: 15px;
+    background-color: white;
+    box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.561);
+    margin-bottom: 150px;
+  }
+`;
+
+const CenterProduct = styled.div`
+  p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    :nth-child(1) {
+      font-size: 20px;
+      font-family: "Roboto", sans-serif;
+      font-weight: 500;
+      padding: 10px;
+    }
+    :nth-child(2) {
+      font-size: 20px;
+      font-family: "Roboto", sans-serif;
+      font-weight: lighter;
+    }
+  }
+  section {
+    width: 90%;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    button {
+      width: 45%;
+      padding: 15px;
+      margin: 5px;
+      border-radius: 10px;
+      border: none;
+      background: #0ed2f7;
+      background: -webkit-linear-gradient(to left, #0ed2f7, #b2fefa);
+      background: linear-gradient(to left, #0ed2f7, #b2fefa);
+      font-size: 20px;
+      font-family: "Roboto", sans-serif;
+    }
+  }
+`;
+const ImgModal = styled.img`
+width: 250px;
+height: 150px;
+display: flex;
+margin: auto;
+`
 
 const Products = () => {
   const { user } = useTheContext();
   const API_URL = "https://coding-challenge-api.aerolab.co/products";
   const [openDiv, setOpenDiv] = useState(false);
+  const [openProduct, setOpenProduct] = useState(false);
+  const [theProduct, setTheProduct] = useState({});
 
   const options = {
     headers: {
@@ -176,15 +241,25 @@ const Products = () => {
 
   if (status === "loading") {
     return <p>cargando</p>;
-  } 
+  } else {
+    console.log(data);
+  }
 
+  const buyProduct = (obj) => {
+    setOpenProduct(true);
+    setTheProduct(obj);
+  };
+
+  const closedModal = () => {
+    setOpenProduct(false);
+  };
 
   return (
     <>
       <main>
         <Container>
           {data.map((el) => (
-            <SectionProduct key={el._id}>
+            <SectionProduct key={el._id} value={openProduct}>
               <Img alt="" src={el.img.hdUrl} />
               <Category>{el.category}</Category>
               <Name>{el.name}</Name>
@@ -194,7 +269,7 @@ const Products = () => {
                 {el.cost < user.points ? (
                   <DivBuy>
                     <Price>${el.cost}</Price>
-                    <PBuy>
+                    <PBuy onClick={() => buyProduct(el)}>
                       Comprar producto
                       <ImgCoin alt="" src={Coin} />
                     </PBuy>
@@ -210,6 +285,25 @@ const Products = () => {
             </SectionProduct>
           ))}
         </Container>
+
+        {openProduct ? (
+          <WatchProdcut>
+            <div>
+              <CenterProduct>
+                <p>{`Estas por comprar el producto ${theProduct.name}`}</p>
+                <p>Estas seguro/a ?</p>
+                <ImgModal alt="" src={theProduct.img.hdUrl} />
+
+                <section>
+                  <button onClick={closedModal}>Cancelar</button>
+                  <button>Aceptar</button>
+                </section>
+              </CenterProduct>
+            </div>
+          </WatchProdcut>
+        ) : (
+          ""
+        )}
       </main>
     </>
   );

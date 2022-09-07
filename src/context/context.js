@@ -11,7 +11,7 @@ export const useTheContext = () => {
 
 export function UserContext({ children }) {
   const API_URL = "https://coding-challenge-api.aerolab.co/user/me";
-  
+
   const options = {
     headers: {
       "Content-Type": "application/json",
@@ -23,18 +23,19 @@ export function UserContext({ children }) {
     const response = await Promise.all([helpHttp().get(API_URL, options)]);
     return response[0];
   };
-  
 
-
-  const { data, status, refetch } = useQuery(["user"], getUser);
+  const { data, status, refetch, isFetching } = useQuery(["user"], getUser);
   // { refetchInterval: 1000}
 
   if (status === "loading") {
     return <p>Cargando</p>;
-  }else{
-    console.log(data)
   }
-  let user = data
 
-  return <theContext.Provider value={{ data, user, refetch }}>{children}</theContext.Provider>;
+  let user = data;
+
+  return (
+    <theContext.Provider value={{ data, user, refetch, isFetching }}>
+      {children}
+    </theContext.Provider>
+  );
 }
