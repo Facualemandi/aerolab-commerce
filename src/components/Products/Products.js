@@ -115,16 +115,24 @@ const ImgBuy = styled.img`
 
 const DivBuy = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   width: max-content;
   height: 100%;
   margin: auto;
 `;
+const Price = styled.p`
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-size: 25px;
+  margin-bottom: 5px;
+`;
 
 const ImgCoin = styled.img`
   width: 40px;
   height: 40px;
+  margin-left: 5px;
 `;
 
 const PBuy = styled.p`
@@ -146,12 +154,12 @@ const PNoBuy = styled.p`
   font-family: "Roboto", sans-serif;
   font-weight: lighter;
 `;
+
 const Products = () => {
   const { user } = useTheContext();
-  console.log(user.points);
-  console.log(user);
   const API_URL = "https://coding-challenge-api.aerolab.co/products";
   const [openDiv, setOpenDiv] = useState(false);
+
   const options = {
     headers: {
       "Content-Type": "application/json",
@@ -168,9 +176,8 @@ const Products = () => {
 
   if (status === "loading") {
     return <p>cargando</p>;
-  } else {
-    console.log(data);
-  }
+  } 
+
 
   return (
     <>
@@ -186,6 +193,7 @@ const Products = () => {
               <DivClick value={openDiv}>
                 {el.cost < user.points ? (
                   <DivBuy>
+                    <Price>${el.cost}</Price>
                     <PBuy>
                       Comprar producto
                       <ImgCoin alt="" src={Coin} />
