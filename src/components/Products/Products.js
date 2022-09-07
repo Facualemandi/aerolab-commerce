@@ -165,15 +165,14 @@ const WatchProdcut = styled.section`
 
   div {
     width: 90vw;
-    height: 350px;
     border-radius: 15px;
     background-color: white;
     box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.561);
-    margin-bottom: 150px;
   }
 `;
 
 const CenterProduct = styled.div`
+  margin-bottom: 150px;
   p {
     display: flex;
     justify-content: center;
@@ -186,9 +185,15 @@ const CenterProduct = styled.div`
       padding: 10px;
     }
     :nth-child(2) {
+      font-size: 16px;
+      font-family: "Roboto", sans-serif;
+      font-weight: lighter;
+    }
+    :nth-child(3) {
       font-size: 20px;
       font-family: "Roboto", sans-serif;
       font-weight: lighter;
+      margin-top: 5px;
     }
   }
   section {
@@ -212,14 +217,14 @@ const CenterProduct = styled.div`
   }
 `;
 const ImgModal = styled.img`
-width: 250px;
-height: 150px;
-display: flex;
-margin: auto;
-`
+  width: 250px;
+  height: 150px;
+  display: flex;
+  margin: auto;
+`;
 
 const Products = () => {
-  const { user } = useTheContext();
+  const { user, refetch } = useTheContext();
   const API_URL = "https://coding-challenge-api.aerolab.co/products";
   const [openDiv, setOpenDiv] = useState(false);
   const [openProduct, setOpenProduct] = useState(false);
@@ -241,10 +246,7 @@ const Products = () => {
 
   if (status === "loading") {
     return <p>cargando</p>;
-  } else {
-    console.log(data);
   }
-
   const buyProduct = (obj) => {
     setOpenProduct(true);
     setTheProduct(obj);
@@ -252,6 +254,24 @@ const Products = () => {
 
   const closedModal = () => {
     setOpenProduct(false);
+  };
+
+  const buyItem = async (el) => {
+      
+    const options = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.REACT_APP_KEY}`,
+      },
+      body: {
+        productId: el._id,
+      },
+    };
+
+    const API_ITEMS = "https://coding-challenge-api.aerolab.co/redeem";
+    const respones = await Promise.all([helpHttp().post(API_ITEMS, options)]);
+    refetch();
+    closedModal()
   };
 
   return (
@@ -288,18 +308,20 @@ const Products = () => {
 
         {openProduct ? (
           <WatchProdcut>
-            <div>
-              <CenterProduct>
-                <p>{`Estas por comprar el producto ${theProduct.name}`}</p>
-                <p>Estas seguro/a ?</p>
-                <ImgModal alt="" src={theProduct.img.hdUrl} />
+            <CenterProduct>
+              <p>{`Estas por comprar el producto ${theProduct.name}`}</p>
+              <p>
+                Actualmente tienes {user.points} puntos, te quedarían{" "}
+                {user.points - theProduct.cost} puntos.
+              </p>
+              <p>Estas seguro/a ?</p>
+              <ImgModal alt="" src={theProduct.img.hdUrl} />
 
-                <section>
-                  <button onClick={closedModal}>Cancelar</button>
-                  <button>Aceptar</button>
-                </section>
-              </CenterProduct>
-            </div>
+              <section>
+                <button onClick={closedModal}>Cancelar</button>
+                <button onClick={() => buyItem(theProduct)}>Aceptar</button>
+              </section>
+            </CenterProduct>
           </WatchProdcut>
         ) : (
           ""

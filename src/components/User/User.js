@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { helpHttp } from "../../Helper/helpHttp";
 import Logo from "../../images/logo.svg";
@@ -7,6 +7,7 @@ import Aerolab from "../../images/aerolab-image.png";
 import { useTheContext } from "../../context/context";
 import Loader from "../Loader/Loader";
 import { RiShoppingCartFill } from "react-icons/ri";
+import { RiDeleteBin6Line } from "react-icons/ri";
 
 const Main = styled.main`
   display: flex;
@@ -17,7 +18,12 @@ const Container = styled.section`
   width: 100vw;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+
+  section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
   @media (max-width: 780px) {
     position: fixed;
@@ -84,9 +90,77 @@ const IconCart = styled(RiShoppingCartFill)`
   margin-right: 15px;
   color: rgba(48, 216, 250, 0.85);
 `;
+const SectionNumberCart = styled.section`
+  position: relative;
+
+  p {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    font-family: "Roboto", sans-serif;
+    font-size: 16px;
+  }
+`;
+
+const SectionProductsCart = styled.section`
+  width: 100vw;
+  height: auto;
+  position: fixed;
+  bottom: 80px;
+  background-color: white;
+  z-index: 2000;
+  transform: ${({ value }) => (!value ? "translateY(100%)" : "translateY(0%)")};
+  transition: 0.5s;
+  box-shadow: 0 0 10px 0 rgba(76, 76, 76, 0.32);
+
+`;
+const ImgCart = styled.img`
+  width: 100px;
+  height: 100px;
+`;
+
+const SectionCart = styled.section`
+  display: flex;
+  margin: 15px;
+  padding: 5px;
+  justify-content: space-around;
+  align-items: center;
+  box-shadow: 0 0 10px 0 rgba(76, 76, 76, 0.32);
+  border-radius: 20px;
+
+  div {
+    margin-top: 10px;
+    p {
+      :nth-child(1) {
+        font-family: "Roboto", sans-serif;
+        font-size: 20px;
+        font-weight: 500;
+        span {
+          font-weight: lighter;
+        }
+      }
+      :nth-child(2) {
+        font-family: "Roboto", sans-serif;
+        color: grey;
+        font-size: 16px;
+        font-weight: 500;
+        margin-top: 5px;
+        span {
+          font-weight: lighter;
+        }
+      }
+    }
+  }
+`;
+const IconDelete = styled(RiDeleteBin6Line)`
+  color: rgba(48, 216, 250, 0.85);
+  width: 35px;
+  height: 35px;
+`;
 
 const User = () => {
   const { data, refetch, isFetching } = useTheContext();
+  const [openCart, setOpenCart] = useState(false);
 
   const options = {
     headers: {
@@ -97,6 +171,18 @@ const User = () => {
       amount: 1000,
     },
   };
+
+  const showCart = () => {
+    !openCart ? setOpenCart(true) : setOpenCart(false);
+  };
+
+  const deleteProduct = async (product) => {
+    const API_ITEMS = "https://coding-challenge-api.aerolab.co/redeem"
+    const deleteProduct = data.redeemHistory.findIndex(el => el.productId === product.productId);
+    data.redeemHistory.splice(deleteProduct, 1);
+   console.log(product)
+    refetch()
+  }
 
   const getPoints = async () => {
     const API_POINTS = "https://coding-challenge-api.aerolab.co/user/points";
@@ -113,20 +199,26 @@ const User = () => {
         <Container>
           <ImgLogo alt="" src={Logo} />
 
-          <SectionUser>
-            <Name>{data.name}</Name>
-            <DivPoints>
-              {isFetching ? (
-                <Loader />
-              ) : (
-                <>
-                  <Points>{data.points}</Points>
-                  <CoinImg alt="" src={Coin} onClick={getPoints} />
-                </>
-              )}
-            </DivPoints>
-          </SectionUser>
-          <IconCart />
+          <section>
+            <SectionUser>
+              <Name>{data.name}</Name>
+              <DivPoints>
+                {isFetching ? (
+                  <Loader />
+                ) : (
+                  <>
+                    <Points>{data.points}</Points>
+                    <CoinImg alt="" src={Coin} onClick={getPoints} />
+                  </>
+                )}
+              </DivPoints>
+            </SectionUser>
+
+            <SectionNumberCart>
+              <IconCart onClick={showCart} />
+              <p>{data.redeemHistory.length}</p>
+            </SectionNumberCart>
+          </section>
         </Container>
 
         <SectionElectronic>
@@ -135,6 +227,23 @@ const User = () => {
             <Electronics>Electronics</Electronics>
           </Div>
         </SectionElectronic>
+
+        <SectionProductsCart value={openCart}>
+          {data.redeemHistory.map((product) => (
+            <SectionCart key={product.productId}>
+              <ImgCart alt="" src={product.img.hdUrl} />
+              <div>
+                <p>
+                  Nombre: <span>{product.name}</span>
+                </p>
+                <p>
+                  Categoría: <span>{product.category}</span>
+                </p>
+              </div>
+              <IconDelete onClick={() => deleteProduct(product)}/>
+            </SectionCart>
+          ))}
+        </SectionProductsCart>
       </Main>
     </>
   );
