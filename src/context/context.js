@@ -27,6 +27,7 @@ export function UserContext({ children }) {
   if (status === "loading") {
     return <p>Cargando</p>;
   }
+  let user = data
 
-  return <theContext.Provider value={{ data }}>{children}</theContext.Provider>;
+  return <theContext.Provider value={{ data, user }}>{children}</theContext.Provider>;
 }

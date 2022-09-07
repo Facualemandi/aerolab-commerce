@@ -1,7 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useTheContext } from "../../context/context";
 import { helpHttp } from "../../Helper/helpHttp";
+import Buy from "../../images/buy-white.svg";
+import Coin from "../../images/coin.svg";
 
 const Img = styled.img`
   @media (max-width: 480px) {
@@ -23,8 +26,13 @@ const DivClick = styled.div`
   border-radius: 10px;
   background-color: rgba(48, 216, 250, 0.85);
   display: ${({ value }) => (value === false ? "none" : "block")};
-`;
 
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+`;
 const Container = styled.section`
   display: grid;
   grid-template-columns: repeat(1, 1fr);
@@ -79,31 +87,69 @@ const SectionProduct = styled.section`
     cursor: pointer;
   }
 `;
-
 const Name = styled.p`
   font-family: "Roboto", sans-serif;
   font-weight: 500;
-  font-size: 20px;
-  margin-top: 5px;
-  padding: 5px;
+  font-size: 18px;
+  padding-left: 5px;
+  padding-bottom: 5px;
 `;
 const Category = styled.p`
   font-family: "Roboto", sans-serif;
-  font-weight: 400;
-  font-size: 18px;
-  margin-top: 5px;
-  padding: 5px;
-`;
-const Cost = styled.p`
-  font-family: "Roboto", sans-serif;
   font-weight: lighter;
-  font-size: 14px;
-  margin-top: 5px;
-  color: green;
+  font-size: 16px;
+  color: grey;
+  padding-left: 5px;
   padding: 5px;
 `;
 
+const ImgBuy = styled.img`
+  display: flex;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 55px;
+  height: 55px;
+  z-index: 1500;
+`;
+
+const DivBuy = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: max-content;
+  height: 100%;
+  margin: auto;
+`;
+
+const ImgCoin = styled.img`
+  width: 40px;
+  height: 40px;
+`;
+
+const PBuy = styled.p`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  border-radius: 50px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-family: "Roboto", sans-serif;
+  font-weight: lighter;
+`;
+const PNoBuy = styled.p`
+  padding: 15px;
+  border-radius: 50px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-family: "Roboto", sans-serif;
+  font-weight: lighter;
+`;
 const Products = () => {
+  const { user } = useTheContext();
+  console.log(user.points);
+  console.log(user);
   const API_URL = "https://coding-challenge-api.aerolab.co/products";
   const [openDiv, setOpenDiv] = useState(false);
   const options = {
@@ -122,6 +168,8 @@ const Products = () => {
 
   if (status === "loading") {
     return <p>cargando</p>;
+  } else {
+    console.log(data);
   }
 
   return (
@@ -131,11 +179,25 @@ const Products = () => {
           {data.map((el) => (
             <SectionProduct key={el._id}>
               <Img alt="" src={el.img.hdUrl} />
-              <Name>{el.name}</Name>
               <Category>{el.category}</Category>
-              <Cost>$ {el.cost}</Cost>
+              <Name>{el.name}</Name>
+              <ImgBuy alt="" src={Buy} />
+
               <DivClick value={openDiv}>
-                 
+                {el.cost < user.points ? (
+                  <DivBuy>
+                    <PBuy>
+                      Comprar producto
+                      <ImgCoin alt="" src={Coin} />
+                    </PBuy>
+                  </DivBuy>
+                ) : (
+                  <DivBuy>
+                    <PNoBuy>
+                      {`Le faltan ${el.cost - user.points}  creditos`}
+                    </PNoBuy>
+                  </DivBuy>
+                )}
               </DivClick>
             </SectionProduct>
           ))}
