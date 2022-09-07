@@ -5,6 +5,7 @@ import { helpHttp } from "../../Helper/helpHttp";
 import Logo from "../../images/logo.svg";
 import Coin from "../../images/coin.svg";
 import Aerolab from "../../images/aerolab-image.png";
+import { useTheContext } from "../../context/context";
 
 const Main = styled.main`
   display: flex;
@@ -20,6 +21,7 @@ const Container = styled.section`
   z-index: 1000;
   background-color: white;
   padding: 10px;
+  box-shadow: 0 0 10px 0 rgba(45, 45, 45, 0.37);
 `;
 const SectionUser = styled.section`
   display: flex;
@@ -73,29 +75,11 @@ const Div = styled.div`
   bottom: 4vw;
   left: 15vw;
 `;
-const AllTechnology = styled.p``;
 
 const User = () => {
-  const API_URL = "https://coding-challenge-api.aerolab.co/user/me";
-
-  const options = {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${process.env.REACT_APP_KEY}`,
-    },
-  };
-  const getUser = async () => {
-    const response = await Promise.all([helpHttp().get(API_URL, options)]);
-    return response[0];
-  };
-
-  const { data, status } = useQuery(["user"], getUser);
-
-  if (status === "loading") {
-    return <p>Cargando</p>;
-  }else{
-    console.log(data)
-  }
+  
+  const { data } = useTheContext();
+  console.log(data)
 
   return (
     <>
