@@ -35,58 +35,38 @@ const DivClick = styled.div`
 `;
 const Container = styled.section`
   display: grid;
-  grid-template-columns: repeat(1, 1fr);
   width: 100vw;
-  margin-top: 15px;
-
-  @media (min-width: 480px) {
+  margin-top: 5px;
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  @media screen and (min-width: 480px) and (max-width: 780px) {
     grid-template-columns: repeat(2, 1fr);
+    max-width: 780px;
+    border: 1px solid red;
   }
-  @media (min-width: 880px) {
+  @media screen and (min-width: 780px) and (max-width: 1080px) {
     grid-template-columns: repeat(3, 1fr);
-    width: 880px;
-    margin: auto;
+    max-width: 1080px;
+       border: 1px solid red;
   }
-  @media (min-width: 1100px) {
+  @media screen and (min-width: 1080px) and (max-width: 1380px) {
     grid-template-columns: repeat(4, 1fr);
-    width: 1100px;
+    max-width: 1380px;
+       border: 1px solid red;
   }
-  @media (min-width: 1350px) {
+  @media screen and (min-width: 1380px) {
     grid-template-columns: repeat(5, 1fr);
-    width: 1350px;
-  }
-  @media (min-width: 1550px) {
-    grid-template-columns: repeat(6, 1fr);
-    width: 1550px;
+    max-width: 1500px;
+    margin: auto;
   }
 `;
 const SectionProduct = styled.section`
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.13);
   position: relative;
   filter: ${({ value }) => (!value ? "blur(0px)" : "blur(6px)")};
-
-  @media (max-width: 480px) {
-    margin: 20px;
-    padding: 20px;
-    border-radius: 15px;
-  }
-
-  @media (max-width: 780px) {
-  }
-
-  @media (min-width: 480px) {
-    width: 90%;
-    border-radius: 10px;
-    margin: auto;
-    margin: 10px;
-  }
-  &:hover ${DivClick} {
-    display: block;
-  }
-
-  @media (min-width: 780px) {
-    cursor: pointer;
-  }
+  margin: 10px;
+  border-radius: 15px;
 `;
 const Name = styled.p`
   font-family: "Roboto", sans-serif;
@@ -223,13 +203,22 @@ const ImgModal = styled.img`
   margin: auto;
 `;
 
+const Input = styled.input`
+  margin: 10px;
+  padding: 15px;
+  border-radius: 10px;
+  width: 9%;
+  border: none;
+  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.271);
+`;
+
 const Products = () => {
   const { user, refetch } = useTheContext();
   const API_URL = "https://coding-challenge-api.aerolab.co/products";
   const [openDiv, setOpenDiv] = useState(false);
   const [openProduct, setOpenProduct] = useState(false);
   const [theProduct, setTheProduct] = useState({});
-  const [searchProduct, setSearchProduct] = useState('')
+  const [searchProduct, setSearchProduct] = useState("");
 
   const options = {
     headers: {
@@ -247,8 +236,6 @@ const Products = () => {
 
   if (status === "loading") {
     return <p>cargando</p>;
-  }else{
-    console.log(data)
   }
   const buyProduct = (obj) => {
     setOpenProduct(true);
@@ -260,7 +247,9 @@ const Products = () => {
   };
 
   const buyItem = async (el) => {
-    const findItemUser = user.redeemHistory.find((item) => item.productId === el._id);
+    const findItemUser = user.redeemHistory.find(
+      (item) => item.productId === el._id
+    );
 
     if (user.redeemHistory.includes(findItemUser)) {
       return console.log("existe");
@@ -281,24 +270,27 @@ const Products = () => {
     }
   };
 
-  let filterObj ;
-  if(searchProduct.length < 1){
-     filterObj = data
-  }else{
-      filterObj = data.filter(obj => obj.name.toLowerCase().includes(searchProduct.toLocaleLowerCase()))
+  let filterObj;
+  if (searchProduct.length < 1) {
+    filterObj = data;
+  } else {
+    filterObj = data.filter((obj) =>
+      obj.name.toLowerCase().includes(searchProduct.toLocaleLowerCase())
+    );
   }
 
-  const onChangeValue = (e) =>{
-    setSearchProduct(e.target.value)
-  }
-
-
+  const onChangeValue = (e) => {
+    setSearchProduct(e.target.value);
+  };
 
   return (
     <>
       <main>
-       
-       <input type={'text'} placeholder='hola' onChange={onChangeValue}/>
+        <Input
+          type={"text"}
+          placeholder="Que estas buscando..."
+          onChange={onChangeValue}
+        />
 
         <Container>
           {filterObj.map((el) => (
