@@ -45,6 +45,7 @@ const SectionUser = styled.section`
 const ImgLogo = styled.img`
   width: 60px;
   height: 60px;
+  margin-left: 10px;
 `;
 const Name = styled.p`
   font-family: "Roboto", sans-serif;

@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import Swal from "sweetalert2";
 import { useTheContext } from "../../context/context";
 import { helpHttp } from "../../Helper/helpHttp";
 import Buy from "../../images/buy-white.svg";
@@ -44,6 +45,7 @@ const Container = styled.section`
   @media screen and (min-width: 480px) and (max-width: 780px) {
     grid-template-columns: repeat(2, 1fr);
     max-width: 780px;
+    margin-bottom: 100px;
   }
   @media screen and (min-width: 780px) and (max-width: 1080px) {
     grid-template-columns: repeat(3, 1fr);
@@ -339,9 +341,15 @@ const Products = () => {
     const findItemUser = user.redeemHistory.find(
       (item) => item.productId === el._id
     );
-
     if (user.redeemHistory.includes(findItemUser)) {
-      return console.log("existe");
+      Swal.fire({
+        position: "top-end",
+        icon: "warning",
+        title: "Este producto ya existe en su carrito",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      return closedModal();
     } else {
       const options = {
         headers: {
@@ -356,6 +364,13 @@ const Products = () => {
       const respones = await Promise.all([helpHttp().post(API_ITEMS, options)]);
       refetch();
       closedModal();
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Producto agregado correctamente",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     }
   };
 
