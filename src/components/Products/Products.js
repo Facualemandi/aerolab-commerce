@@ -51,10 +51,12 @@ const Container = styled.section`
   }
   @media screen and (min-width: 1080px) and (max-width: 1380px) {
     grid-template-columns: repeat(4, 1fr);
+    width: 100%;
     max-width: 1380px;
   }
   @media screen and (min-width: 1380px) {
     grid-template-columns: repeat(5, 1fr);
+    width: 100%;
     max-width: 1500px;
     margin: auto;
   }
@@ -67,6 +69,9 @@ const SectionProduct = styled.section`
   border-radius: 15px;
   &:hover ${DivClick} {
     display: block;
+  }
+  @media (min-width: 780px) {
+    cursor: pointer;
   }
 `;
 const Name = styled.p`
@@ -149,6 +154,15 @@ const WatchProdcut = styled.section`
     border-radius: 15px;
     background-color: white;
     box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.561);
+    @media (min-width: 780px) {
+      width: 60vw;
+    }
+    @media (min-width: 1080px) {
+      width: 50vw;
+    }
+    @media (min-width: 1080px) {
+      width: 40vw;
+    }
   }
 `;
 
@@ -194,6 +208,10 @@ const CenterProduct = styled.div`
       background: linear-gradient(to left, #0ed2f7, #b2fefa);
       font-size: 20px;
       font-family: "Roboto", sans-serif;
+      margin-bottom: 15px;
+      @media (min-width: 780px) {
+        cursor: pointer;
+      }
     }
   }
 `;
@@ -209,20 +227,19 @@ const SectionFilter = styled.section`
     display: flex;
     flex-direction: column;
   }
-  @media (min-width: 780px) {
+  @media screen and (min-width: 780px) and (max-width: 1080px) {
     display: flex;
     margin: auto;
-    width: 780px;
+    width: auto;
   }
   @media (min-width: 1080px) {
     display: flex;
     margin: auto;
-    width: 1080px;
   }
   @media (min-width: 1380px) {
     display: flex;
     margin: auto;
-    width: 1500px;
+    max-width: 1500px;
   }
 `;
 
@@ -230,7 +247,6 @@ const Input = styled.input`
   margin: 10px;
   padding: 15px;
   border-radius: 10px;
-  width: 9%;
   border: none;
   box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.271);
   display: flex;
@@ -243,15 +259,15 @@ const Input = styled.input`
   }
   @media screen and (min-width: 780px) and (max-width: 1080px) {
     width: 50%;
-    margin: 10px;
+    margin: 5px;
   }
   @media screen and (min-width: 1080px) and (max-width: 1380px) {
     width: 50%;
-    margin: 10px;
+    margin: 5px;
   }
   @media screen and (min-width: 1380px) {
     width: 50%;
-    margin: 10px;
+    margin: 5px;
   }
 `;
 
@@ -259,12 +275,10 @@ const Select = styled.select`
   margin: 10px;
   padding: 15px;
   border-radius: 10px;
-  width: 9%;
   border: none;
   box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.271);
   display: flex;
   margin: auto;
-
 
   @media screen and (max-width: 780px) {
     width: 95%;
@@ -272,17 +286,17 @@ const Select = styled.select`
   }
   @media screen and (min-width: 780px) and (max-width: 1080px) {
     width: 50%;
-    margin: 10px;
+    margin: 5px;
   }
   @media screen and (min-width: 1080px) and (max-width: 1380px) {
     width: 50%;
-    margin: 10px;
+    margin: 5px;
   }
   @media screen and (min-width: 1380px) {
     width: 50%;
-    margin: 10px;
+    margin: 5px;
   }
-  @media (min-width: 780px){
+  @media (min-width: 780px) {
     cursor: pointer;
   }
 `;
@@ -310,7 +324,7 @@ const Products = () => {
   const { data, status } = useQuery(["products"], getProducts);
 
   if (status === "loading") {
-    return <LoaderProducts/>
+    return <LoaderProducts />;
   }
   const buyProduct = (obj) => {
     setOpenProduct(true);
@@ -377,8 +391,9 @@ const Products = () => {
             <option value={"Laptops"}>Laptops</option>
             <option value={"Cameras"}>Cameras</option>
             <option value={"Phones"}>Phones</option>
+            <option value={"Phone Accessories"}>Phone Accessories</option>
             <option value={"Smart Home"}>Smart Home</option>
-            <option value={"Pc Accessories"}>Pc Accessories</option>
+            <option value={"PC Accessories"}>PC Accessories</option>
             <option value={"Gaming"}>Gaming</option>
             <option value={"Audio"}>Audio</option>
             <option value={"Tablets & E-Readers"}>Tablets & E-Readers</option>
