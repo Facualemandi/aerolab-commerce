@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { createContext, useContext } from "react";
 import { helpHttp } from "../Helper/helpHttp";
+import LoaderProducts from "../Loader/LoaderProducts";
 
 const theContext = createContext();
 
@@ -28,7 +29,7 @@ export function UserContext({ children }) {
   // { refetchInterval: 1000}
 
   if (status === "loading") {
-    return <p>Cargando</p>;
+    return ;
   }
 
   let user = data;

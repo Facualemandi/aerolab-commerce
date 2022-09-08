@@ -5,6 +5,7 @@ import { useTheContext } from "../../context/context";
 import { helpHttp } from "../../Helper/helpHttp";
 import Buy from "../../images/buy-white.svg";
 import Coin from "../../images/coin.svg";
+import LoaderProducts from "../../Loader/LoaderProducts";
 
 const Img = styled.img`
   @media (max-width: 480px) {
@@ -264,6 +265,7 @@ const Select = styled.select`
   display: flex;
   margin: auto;
 
+
   @media screen and (max-width: 780px) {
     width: 95%;
     margin-top: 15px;
@@ -308,9 +310,7 @@ const Products = () => {
   const { data, status } = useQuery(["products"], getProducts);
 
   if (status === "loading") {
-    return <p>cargando</p>;
-  } else {
-    console.log(data);
+    return <LoaderProducts/>
   }
   const buyProduct = (obj) => {
     setOpenProduct(true);
