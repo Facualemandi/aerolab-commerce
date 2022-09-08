@@ -226,7 +226,6 @@ const User = () => {
       (el) => el.productId === product.productId
     );
     data.redeemHistory.splice(deleteProduct, 1);
-    console.log(product);
     refetch();
   };
 
