@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/aerolab-commerce/static/css/main.0dbf8a30.css",
-    "main.js": "/aerolab-commerce/static/js/main.80b93520.js",
+    "main.js": "/aerolab-commerce/static/js/main.f8328da4.js",
     "static/media/aerolab-image.png": "/aerolab-commerce/static/media/aerolab-image.b6f067c6b4f62faf8d64.png",
     "static/media/notSearchFound.png": "/aerolab-commerce/static/media/notSearchFound.caadc7db4fcb5d46df25.png",
     "static/media/coin.svg": "/aerolab-commerce/static/media/coin.b8bc711dc53d90c08c1393f95ad678a5.svg",
@@ -9,10 +9,10 @@
     "static/media/logo.svg": "/aerolab-commerce/static/media/logo.0a8fb170393a3c96d2c91bc7a39a60d2.svg",
     "index.html": "/aerolab-commerce/index.html",
     "main.0dbf8a30.css.map": "/aerolab-commerce/static/css/main.0dbf8a30.css.map",
-    "main.80b93520.js.map": "/aerolab-commerce/static/js/main.80b93520.js.map"
+    "main.f8328da4.js.map": "/aerolab-commerce/static/js/main.f8328da4.js.map"
   },
   "entrypoints": [
     "static/css/main.0dbf8a30.css",
-    "static/js/main.80b93520.js"
+    "static/js/main.f8328da4.js"
   ]
 }
