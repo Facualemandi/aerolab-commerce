@@ -47,19 +47,20 @@ const Container = styled.section`
     grid-template-columns: repeat(2, 1fr);
     max-width: 780px;
     margin-bottom: 100px;
+    margin: auto;
   }
   @media screen and (min-width: 780px) and (max-width: 1080px) {
     grid-template-columns: repeat(3, 1fr);
     max-width: 1080px;
+    margin: auto;
   }
   @media screen and (min-width: 1080px) and (max-width: 1380px) {
     grid-template-columns: repeat(4, 1fr);
-    width: 100%;
     max-width: 1380px;
+    margin: auto;
   }
   @media screen and (min-width: 1380px) {
     grid-template-columns: repeat(5, 1fr);
-    width: 100%;
     max-width: 1500px;
     margin: auto;
   }
@@ -386,7 +387,6 @@ const Products = () => {
     );
   }
 
-
   const onChangeValue = (e) => {
     setSearchProduct(e.target.value);
   };
@@ -418,35 +418,37 @@ const Products = () => {
           </Select>
         </SectionFilter>
 
+       
+        {filterObj.length === 0 && <NoSearchProduct />}
+       
         <Container>
-          {filterObj.length === 0
-            ? <NoSearchProduct/>
-            : filterObj.map((el) => (
-                <SectionProduct key={el._id} value={openProduct}>
-                  <Img alt="" src={el.img.hdUrl} />
-                  <Category>{el.category}</Category>
-                  <Name>{el.name}</Name>
-                  <ImgBuy alt="" src={Buy} />
+          {filterObj.length > 0 &&
+            filterObj.map((el) => (
+              <SectionProduct key={el._id} value={openProduct}>
+                <Img alt="" src={el.img.hdUrl} />
+                <Category>{el.category}</Category>
+                <Name>{el.name}</Name>
+                <ImgBuy alt="" src={Buy} />
 
-                  <DivClick value={openDiv}>
-                    {el.cost < user.points ? (
-                      <DivBuy>
-                        <Price>${el.cost}</Price>
-                        <PBuy onClick={() => buyProduct(el)}>
-                          Comprar producto
-                          <ImgCoin alt="" src={Coin} />
-                        </PBuy>
-                      </DivBuy>
-                    ) : (
-                      <DivBuy>
-                        <PNoBuy>
-                          {`Le faltan ${el.cost - user.points}  creditos`}
-                        </PNoBuy>
-                      </DivBuy>
-                    )}
-                  </DivClick>
-                </SectionProduct>
-              ))}
+                <DivClick value={openDiv}>
+                  {el.cost < user.points ? (
+                    <DivBuy>
+                      <Price>${el.cost}</Price>
+                      <PBuy onClick={() => buyProduct(el)}>
+                        Comprar producto
+                        <ImgCoin alt="" src={Coin} />
+                      </PBuy>
+                    </DivBuy>
+                  ) : (
+                    <DivBuy>
+                      <PNoBuy>
+                        {`Le faltan ${el.cost - user.points}  creditos`}
+                      </PNoBuy>
+                    </DivBuy>
+                  )}
+                </DivClick>
+              </SectionProduct>
+            ))}
         </Container>
 
         {openProduct ? (
