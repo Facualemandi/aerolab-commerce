@@ -43,17 +43,14 @@ const Container = styled.section`
   @media screen and (min-width: 480px) and (max-width: 780px) {
     grid-template-columns: repeat(2, 1fr);
     max-width: 780px;
-    border: 1px solid red;
   }
   @media screen and (min-width: 780px) and (max-width: 1080px) {
     grid-template-columns: repeat(3, 1fr);
     max-width: 1080px;
-       border: 1px solid red;
   }
   @media screen and (min-width: 1080px) and (max-width: 1380px) {
     grid-template-columns: repeat(4, 1fr);
     max-width: 1380px;
-       border: 1px solid red;
   }
   @media screen and (min-width: 1380px) {
     grid-template-columns: repeat(5, 1fr);
@@ -70,7 +67,6 @@ const SectionProduct = styled.section`
   &:hover ${DivClick} {
     display: block;
   }
-  
 `;
 const Name = styled.p`
   font-family: "Roboto", sans-serif;
@@ -214,6 +210,24 @@ const Input = styled.input`
   width: 9%;
   border: none;
   box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.271);
+  display: flex;
+  margin: auto;
+
+  @media screen and (max-width: 780px) {
+    width: 95%;
+  }
+  @media screen and (min-width: 780px) and (max-width: 1080px) {
+    width: 50%;
+    margin: 10px;
+  }
+  @media screen and (min-width: 1080px) and (max-width: 1380px) {
+    width: 50%;
+    margin: 10px;
+  }
+  @media screen and (min-width: 1380px) {
+    width: 50%;
+    margin: 10px;
+  }
 `;
 
 const Products = () => {
