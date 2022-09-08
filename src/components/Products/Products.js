@@ -229,6 +229,7 @@ const Products = () => {
   const [openDiv, setOpenDiv] = useState(false);
   const [openProduct, setOpenProduct] = useState(false);
   const [theProduct, setTheProduct] = useState({});
+  const [searchProduct, setSearchProduct] = useState('')
 
   const options = {
     headers: {
@@ -246,6 +247,8 @@ const Products = () => {
 
   if (status === "loading") {
     return <p>cargando</p>;
+  }else{
+    console.log(data)
   }
   const buyProduct = (obj) => {
     setOpenProduct(true);
@@ -257,9 +260,8 @@ const Products = () => {
   };
 
   const buyItem = async (el) => {
-    const findItemUser = user.redeemHistory.find(
-      (item) => item.productId === el._id
-    );
+    const findItemUser = user.redeemHistory.find((item) => item.productId === el._id);
+
     if (user.redeemHistory.includes(findItemUser)) {
       return console.log("existe");
     } else {
@@ -279,11 +281,27 @@ const Products = () => {
     }
   };
 
+  let filterObj ;
+  if(searchProduct.length < 1){
+     filterObj = data
+  }else{
+      filterObj = data.filter(obj => obj.name.toLowerCase().includes(searchProduct.toLocaleLowerCase()))
+  }
+
+  const onChangeValue = (e) =>{
+    setSearchProduct(e.target.value)
+  }
+
+
+
   return (
     <>
       <main>
+       
+       <input type={'text'} placeholder='hola' onChange={onChangeValue}/>
+
         <Container>
-          {data.map((el) => (
+          {filterObj.map((el) => (
             <SectionProduct key={el._id} value={openProduct}>
               <Img alt="" src={el.img.hdUrl} />
               <Category>{el.category}</Category>

@@ -15,9 +15,12 @@ const Main = styled.main`
   justify-content: space-between;
 `;
 const Container = styled.section`
-  width: 100vw;
+  width: 100%;
   display: flex;
   justify-content: space-between;
+  position: fixed;
+  z-index: 5000;
+  background-color: white;
 
   section {
     display: flex;
@@ -58,6 +61,9 @@ const CoinImg = styled.img`
   width: 30px;
   height: 30px;
   margin-left: 5px;
+  @media (min-width: 780px){
+    cursor: pointer;
+  }
 `;
 const DivPoints = styled.div`
   display: flex;
@@ -89,6 +95,10 @@ const IconCart = styled(RiShoppingCartFill)`
   height: 35px;
   margin-right: 15px;
   color: rgba(48, 216, 250, 0.85);
+  margin-right: 25px;
+  @media (min-width: 780px){
+    cursor: pointer;
+  }
 `;
 const SectionNumberCart = styled.section`
   position: relative;
@@ -99,56 +109,89 @@ const SectionNumberCart = styled.section`
     bottom: 0px;
     font-family: "Roboto", sans-serif;
     font-size: 16px;
+    margin-right: 15px;
   }
 `;
-
 const SectionProductsCart = styled.section`
-  width: 100vw;
-  height: auto;
-  position: fixed;
-  bottom: 80px;
-  background-color: white;
-  z-index: 2000;
-  transform: ${({ value }) => (!value ? "translateY(100%)" : "translateY(0%)")};
-  transition: 0.5s;
-  box-shadow: 0 0 10px 0 rgba(76, 76, 76, 0.32);
-
+  @media (max-width: 780px) {
+    width: 100vw;
+    height: auto;
+    position: fixed;
+    bottom: 80px;
+    background-color: white;
+    z-index: 2000;
+    transform: ${({ value }) =>
+      !value ? "translateY(100%)" : "translateY(0%)"};
+    transition: 0.5s;
+    box-shadow: 0 0 10px 0 rgba(76, 76, 76, 0.32);
+  }
+  @media (min-width: 780px) {
+    position: fixed;
+    top: 0px;
+    background-color: white;
+    width: 100%;
+    transform: ${({ value }) =>
+      !value ? "translateY(-110%)" : "translateY(60px)"};
+    transition: 0.5s;
+    box-shadow: 0 10px 10px 0 rgba(39, 39, 39, 0.181);
+    z-index: 4000;
+  }
 `;
 const ImgCart = styled.img`
   width: 100px;
   height: 100px;
+  @media (min-width: 780px) {
+    width: 130px;
+    height: 130px;
+  }
 `;
-
 const SectionCart = styled.section`
-  display: flex;
-  margin: 15px;
-  padding: 5px;
-  justify-content: space-around;
-  align-items: center;
-  box-shadow: 0 0 10px 0 rgba(76, 76, 76, 0.32);
-  border-radius: 20px;
+    div {
+      margin-top: 10px;
+      p {
+        :nth-child(1) {
+          font-family: "Roboto", sans-serif;
+          font-size: 20px;
+          font-weight: 500;
+          span {
+            font-weight: lighter;
+          }
+        }
+        :nth-child(2) {
+          font-family: "Roboto", sans-serif;
+          color: grey;
+          font-size: 16px;
+          font-weight: 500;
+          margin-top: 5px;
+          span {
+            font-weight: lighter;
+          }
+        }
+      }
+    }
+  @media (max-width: 780px) {
+    display: flex;
+    margin: 15px;
+    padding: 5px;
+    justify-content: space-around;
+    align-items: center;
+    box-shadow: 0 0 10px 0 rgba(76, 76, 76, 0.32);
+    border-radius: 20px;
+    width: 94%;
+  }
 
-  div {
-    margin-top: 10px;
-    p {
-      :nth-child(1) {
-        font-family: "Roboto", sans-serif;
-        font-size: 20px;
-        font-weight: 500;
-        span {
-          font-weight: lighter;
-        }
-      }
-      :nth-child(2) {
-        font-family: "Roboto", sans-serif;
-        color: grey;
-        font-size: 16px;
-        font-weight: 500;
-        margin-top: 5px;
-        span {
-          font-weight: lighter;
-        }
-      }
+  @media (min-width: 780px) {
+    width: 50%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 5px auto;
+    border-radius: 20px;
+    box-shadow: 0 0 10px 0 rgba(52, 52, 52, 0.205);
+    margin-bottom: 10px;
+    cursor: pointer;
+    &:hover{
+      background-color: rgba(2, 255, 255, 0.131);
     }
   }
 `;
@@ -177,12 +220,14 @@ const User = () => {
   };
 
   const deleteProduct = async (product) => {
-    const API_ITEMS = "https://coding-challenge-api.aerolab.co/redeem"
-    const deleteProduct = data.redeemHistory.findIndex(el => el.productId === product.productId);
+    const API_ITEMS = "https://coding-challenge-api.aerolab.co/redeem";
+    const deleteProduct = data.redeemHistory.findIndex(
+      (el) => el.productId === product.productId
+    );
     data.redeemHistory.splice(deleteProduct, 1);
-   console.log(product)
-    refetch()
-  }
+    console.log(product);
+    refetch();
+  };
 
   const getPoints = async () => {
     const API_POINTS = "https://coding-challenge-api.aerolab.co/user/points";
@@ -240,7 +285,7 @@ const User = () => {
                   Categoría: <span>{product.category}</span>
                 </p>
               </div>
-              <IconDelete onClick={() => deleteProduct(product)}/>
+              <IconDelete onClick={() => deleteProduct(product)} />
             </SectionCart>
           ))}
         </SectionProductsCart>
