@@ -13,6 +13,7 @@ const Main = styled.main`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  position: relative;
 `;
 const Container = styled.section`
   width: 100%;
@@ -75,10 +76,10 @@ const DivPoints = styled.div`
 const ImgAeroLab = styled.img`
   width: 100%;
   margin: auto;
+  
 `;
 const SectionElectronic = styled.section`
   position: relative;
-  margin-top: 10px;
 `;
 const Electronics = styled.p`
   font-family: "Roboto", sans-serif;
