@@ -67,6 +67,10 @@ const SectionProduct = styled.section`
   filter: ${({ value }) => (!value ? "blur(0px)" : "blur(6px)")};
   margin: 10px;
   border-radius: 15px;
+  &:hover ${DivClick} {
+    display: block;
+  }
+  
 `;
 const Name = styled.p`
   font-family: "Roboto", sans-serif;
