@@ -22,7 +22,7 @@ const Container = styled.section`
   position: fixed;
   z-index: 5000;
   background-color: white;
-  @media (max-width: 280px){
+  @media (max-width: 280px) {
   }
 
   section {
@@ -49,7 +49,7 @@ const ImgLogo = styled.img`
   width: 60px;
   height: 60px;
   margin-left: 10px;
-  @media (max-width: 330px){
+  @media (max-width: 330px) {
     width: 30px;
     height: 30px;
   }
@@ -60,7 +60,7 @@ const Name = styled.p`
   font-weight: 500;
   margin-right: 15px;
 
-  @media (max-width: 330px){
+  @media (max-width: 330px) {
     font-size: 16px;
   }
 `;
@@ -73,7 +73,7 @@ const CoinImg = styled.img`
   width: 30px;
   height: 30px;
   margin-left: 5px;
-  @media (min-width: 780px){
+  @media (min-width: 780px) {
     cursor: pointer;
   }
 `;
@@ -86,7 +86,6 @@ const DivPoints = styled.div`
 const ImgAeroLab = styled.img`
   width: 100%;
   margin: auto;
-  
 `;
 const SectionElectronic = styled.section`
   position: relative;
@@ -108,7 +107,7 @@ const IconCart = styled(RiShoppingCartFill)`
   margin-right: 15px;
   color: rgba(48, 216, 250, 0.85);
   margin-right: 25px;
-  @media (min-width: 780px){
+  @media (min-width: 780px) {
     cursor: pointer;
   }
 `;
@@ -125,38 +124,29 @@ const SectionNumberCart = styled.section`
   }
 `;
 const SectionProductsCart = styled.section`
-
-@media (max-width: 330px){ 
-    width: 100vw;
-    height: auto;
-    position: fixed;
-    bottom: 80px;
-    background-color: white;
-    z-index: 2000;
-    transform: ${({ value }) =>!value ? "translateY(105%)" : "translateY(5%)"};
-    transition: 0.5s;
-    box-shadow: 0 0 10px 0 rgba(76, 76, 76, 0.32);
+  width: 100vw;
+  height: max-content;
+  position: fixed;
+  bottom: 80px;
+  background-color: white;
+  z-index: 2000;
+  transition: 0.5s;
+  box-shadow: 0 0 10px 0 rgba(76, 76, 76, 0.32);
+  @media (max-width: 330px) {
+    transform: ${({ value }) =>
+      !value ? "translateY(105%)" : "translateY(5%)"};
   }
 
-  @media screen and (min-width: 330px)and (max-width: 780px) {
-    width: 100vw;
-    height: auto;
-    position: fixed;
-    bottom: 80px;
-    background-color: white;
-    z-index: 2000;
-    transform: ${({ value }) =>!value ? "translateY(100%)" : "translateY(0%)"};
-    transition: 0.5s;
-    box-shadow: 0 0 10px 0 rgba(76, 76, 76, 0.32);
+  @media screen and (min-width: 330px) and (max-width: 780px) {
+    transform: ${({ value }) =>
+      !value ? "translateY(100%)" : "translateY(0%)"};
   }
+
   @media (min-width: 780px) {
-    position: fixed;
     top: 0px;
-    background-color: white;
     width: 100%;
-    transform: ${({ value }) => !value ? "translateY(-110%)" : "translateY(60px)"};
-    transition: 0.5s;
-    box-shadow: 0 10px 10px 0 rgba(39, 39, 39, 0.181);
+    transform: ${({ value }) =>
+      !value ? "translateY(-110%)" : "translateY(60px)"};
     z-index: 4000;
   }
 `;
@@ -169,38 +159,37 @@ const ImgCart = styled.img`
   }
 `;
 const SectionCart = styled.section`
-    div {
-      margin-top: 10px;
-      p {
-        :nth-child(1) {
-          font-family: "Roboto", sans-serif;
-          font-size: 20px;
-          font-weight: 500;
-          span {
-            font-weight: lighter;
-          }
+  div {
+    margin-top: 10px;
+    p {
+      :nth-child(1) {
+        font-family: "Roboto", sans-serif;
+        font-size: 20px;
+        font-weight: 500;
+        span {
+          font-weight: lighter;
         }
-        :nth-child(2) {
-          font-family: "Roboto", sans-serif;
-          color: grey;
-          font-size: 16px;
-          font-weight: 500;
-          margin-top: 5px;
-          span {
-            font-weight: lighter;
-          }
+      }
+      :nth-child(2) {
+        font-family: "Roboto", sans-serif;
+        color: grey;
+        font-size: 16px;
+        font-weight: 500;
+        margin-top: 5px;
+        span {
+          font-weight: lighter;
         }
       }
     }
+  }
   @media (max-width: 780px) {
     display: flex;
-    margin: 15px;
-    padding: 5px;
     justify-content: space-around;
     align-items: center;
     box-shadow: 0 0 10px 0 rgba(76, 76, 76, 0.32);
     border-radius: 20px;
-    width: 94%;
+    margin: 10px;
+    padding: 10px;
   }
 
   @media (min-width: 780px) {
@@ -213,7 +202,7 @@ const SectionCart = styled.section`
     box-shadow: 0 0 10px 0 rgba(52, 52, 52, 0.205);
     margin-bottom: 10px;
     cursor: pointer;
-    &:hover{
+    &:hover {
       background-color: rgba(2, 255, 255, 0.131);
     }
   }
