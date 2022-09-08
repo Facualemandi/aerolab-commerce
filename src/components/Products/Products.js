@@ -383,7 +383,7 @@ const Products = () => {
         <SectionFilter>
           <Input
             type={"text"}
-            placeholder="Que estas buscando..."
+            placeholder="Busca por producto o nombre"
             onChange={onChangeValue}
           />
           <Select onChange={onChangeOption} defaultValue="Ver Todo">
