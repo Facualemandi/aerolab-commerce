@@ -22,6 +22,8 @@ const Container = styled.section`
   position: fixed;
   z-index: 5000;
   background-color: white;
+  @media (max-width: 280px){
+  }
 
   section {
     display: flex;
@@ -47,12 +49,20 @@ const ImgLogo = styled.img`
   width: 60px;
   height: 60px;
   margin-left: 10px;
+  @media (max-width: 330px){
+    width: 30px;
+    height: 30px;
+  }
 `;
 const Name = styled.p`
   font-family: "Roboto", sans-serif;
   font-size: 20px;
   font-weight: 500;
   margin-right: 15px;
+
+  @media (max-width: 330px){
+    font-size: 16px;
+  }
 `;
 const Points = styled.p`
   font-family: "Roboto", sans-serif;
@@ -115,15 +125,27 @@ const SectionNumberCart = styled.section`
   }
 `;
 const SectionProductsCart = styled.section`
-  @media (max-width: 780px) {
+
+@media (max-width: 330px){ 
     width: 100vw;
     height: auto;
     position: fixed;
     bottom: 80px;
     background-color: white;
     z-index: 2000;
-    transform: ${({ value }) =>
-      !value ? "translateY(100%)" : "translateY(0%)"};
+    transform: ${({ value }) =>!value ? "translateY(105%)" : "translateY(5%)"};
+    transition: 0.5s;
+    box-shadow: 0 0 10px 0 rgba(76, 76, 76, 0.32);
+  }
+
+  @media screen and (min-width: 330px)and (max-width: 780px) {
+    width: 100vw;
+    height: auto;
+    position: fixed;
+    bottom: 80px;
+    background-color: white;
+    z-index: 2000;
+    transform: ${({ value }) =>!value ? "translateY(100%)" : "translateY(0%)"};
     transition: 0.5s;
     box-shadow: 0 0 10px 0 rgba(76, 76, 76, 0.32);
   }
@@ -132,8 +154,7 @@ const SectionProductsCart = styled.section`
     top: 0px;
     background-color: white;
     width: 100%;
-    transform: ${({ value }) =>
-      !value ? "translateY(-110%)" : "translateY(60px)"};
+    transform: ${({ value }) => !value ? "translateY(-110%)" : "translateY(60px)"};
     transition: 0.5s;
     box-shadow: 0 10px 10px 0 rgba(39, 39, 39, 0.181);
     z-index: 4000;

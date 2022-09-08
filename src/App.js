@@ -14,7 +14,7 @@ function App() {
           <Route path="/" element={<Home />} />
         </Routes>
       </UserContext>
-      <ReactQueryDevtools initialIsOpen={false} />
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
     </QueryClientProvider>
   );
 }
