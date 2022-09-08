@@ -203,6 +203,28 @@ const ImgModal = styled.img`
   margin: auto;
 `;
 
+const SectionFilter = styled.section`
+  @media (max-width: 780px) {
+    display: flex;
+    flex-direction: column;
+  }
+  @media (min-width: 780px) {
+    display: flex;
+    margin: auto;
+    width: 780px;
+  }
+  @media (min-width: 1080px) {
+    display: flex;
+    margin: auto;
+    width: 1080px;
+  }
+  @media (min-width: 1380px) {
+    display: flex;
+    margin: auto;
+    width: 1500px;
+  }
+`;
+
 const Input = styled.input`
   margin: 10px;
   padding: 15px;
@@ -212,9 +234,11 @@ const Input = styled.input`
   box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.271);
   display: flex;
   margin: auto;
+  outline-color: aqua;
 
   @media screen and (max-width: 780px) {
     width: 95%;
+    margin-top: 15px;
   }
   @media screen and (min-width: 780px) and (max-width: 1080px) {
     width: 50%;
@@ -227,6 +251,37 @@ const Input = styled.input`
   @media screen and (min-width: 1380px) {
     width: 50%;
     margin: 10px;
+  }
+`;
+
+const Select = styled.select`
+  margin: 10px;
+  padding: 15px;
+  border-radius: 10px;
+  width: 9%;
+  border: none;
+  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.271);
+  display: flex;
+  margin: auto;
+
+  @media screen and (max-width: 780px) {
+    width: 95%;
+    margin-top: 15px;
+  }
+  @media screen and (min-width: 780px) and (max-width: 1080px) {
+    width: 50%;
+    margin: 10px;
+  }
+  @media screen and (min-width: 1080px) and (max-width: 1380px) {
+    width: 50%;
+    margin: 10px;
+  }
+  @media screen and (min-width: 1380px) {
+    width: 50%;
+    margin: 10px;
+  }
+  @media (min-width: 780px){
+    cursor: pointer;
   }
 `;
 
@@ -254,6 +309,8 @@ const Products = () => {
 
   if (status === "loading") {
     return <p>cargando</p>;
+  } else {
+    console.log(data);
   }
   const buyProduct = (obj) => {
     setOpenProduct(true);
@@ -292,23 +349,42 @@ const Products = () => {
   if (searchProduct.length < 1) {
     filterObj = data;
   } else {
-    filterObj = data.filter((obj) =>
-      obj.name.toLowerCase().includes(searchProduct.toLocaleLowerCase())
+    filterObj = data.filter(
+      (obj) =>
+        obj.name.toLowerCase().includes(searchProduct.toLocaleLowerCase()) ||
+        obj.category.toLowerCase().includes(searchProduct.toLocaleLowerCase())
     );
   }
 
   const onChangeValue = (e) => {
     setSearchProduct(e.target.value);
   };
+  const onChangeOption = (e) => {
+    setSearchProduct(e.target.value);
+  };
 
   return (
     <>
       <main>
-        <Input
-          type={"text"}
-          placeholder="Que estas buscando..."
-          onChange={onChangeValue}
-        />
+        <SectionFilter>
+          <Input
+            type={"text"}
+            placeholder="Que estas buscando..."
+            onChange={onChangeValue}
+          />
+          <Select onChange={onChangeOption} defaultValue="Ver Todo">
+            <option value={""}>Ver Todo</option>
+            <option value={"Laptops"}>Laptops</option>
+            <option value={"Cameras"}>Cameras</option>
+            <option value={"Phones"}>Phones</option>
+            <option value={"Smart Home"}>Smart Home</option>
+            <option value={"Pc Accessories"}>Pc Accessories</option>
+            <option value={"Gaming"}>Gaming</option>
+            <option value={"Audio"}>Audio</option>
+            <option value={"Tablets & E-Readers"}>Tablets & E-Readers</option>
+            <option value={"Drones"}>Drones</option>
+          </Select>
+        </SectionFilter>
 
         <Container>
           {filterObj.map((el) => (
